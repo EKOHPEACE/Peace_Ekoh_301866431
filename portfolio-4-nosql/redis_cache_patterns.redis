@@ -60,3 +60,24 @@ GET product:cache:PROD-TECH-001
 
 # 3. Invalidation pattern on price update in MySQL
 DEL product:cache:PROD-TECH-001
+
+
+# ----------------------------------------------------------------------------
+# PATTERN 4: REAL-TIME TRENDING PRODUCTS LEADERBOARD (Sorted Sets - ZSET)
+# Business Purpose: Maintain real-time best-seller rankings with O(log(N)) updates.
+# ----------------------------------------------------------------------------
+
+# 1. Atomically increment purchase/view scores upon checkout confirmation
+ZINCRBY leaderboard:bestsellers:2026-11 5 "PROD-TECH-001"
+ZINCRBY leaderboard:bestsellers:2026-11 12 "PROD-TECH-002"
+ZINCRBY leaderboard:bestsellers:2026-11 3 "PROD-FASH-001"
+ZINCRBY leaderboard:bestsellers:2026-11 18 "PROD-GROC-001"
+
+# 2. Retrieve Top 3 Trending Best-Sellers with exact transaction scores
+ZREVRANGE leaderboard:bestsellers:2026-11 0 2 WITHSCORES
+
+# 3. Inspect individual SKU ranking position (0-indexed highest to lowest)
+ZREVRANK leaderboard:bestsellers:2026-11 "PROD-GROC-001"
+
+# 4. Set 30-day TTL (2,592,000 seconds) on monthly leaderboard partition
+EXPIRE leaderboard:bestsellers:2026-11 2592000

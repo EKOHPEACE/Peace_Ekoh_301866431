@@ -157,9 +157,11 @@ Groceries & Provisions   | Verified Buyer   | 2        | 4.9         | 50%
 
 
 ## 6. Key-Value Caching Model (Redis Architecture)
-In addition to MongoDB, NovaMart utilizes **Redis 5.0** for memory-speed operations:
+In addition to MongoDB, NovaMart utilizes **Redis 7.0** for memory-speed operations:
 1. **User Shopping Carts:** Stored as Redis Hashes (`HSET cart:session:<cust_id> <prod_id> <qty>`) with an automatic 7-day Time-To-Live (`EXPIRE 604800`). Abandoned carts expire automatically without cluttering disk tables.
 2. **Flash Sale Inventory Guard:** Atomic Redis commands (`DECRBY stock:cache:<prod_id> 1`) reject oversold orders in RAM at sub-millisecond speeds before requests touch the primary database.
+3. **Cache-Aside Product Detail Strings:** Serialized JSON product objects cached with TTL (`SET product:cache:<sku> <json> EX 3600`) to guarantee sub-millisecond product page responses under viral traffic spikes.
+4. **Real-Time Trending Best-Seller Leaderboards:** Redis Sorted Sets (`ZSET`) maintain live sales and view rankings with $O(\log N)$ inserts and retrieval (`ZINCRBY`, `ZREVRANGE ... WITHSCORES`), expiring per partition (`EXPIRE 2592000`).
 
 ---
 

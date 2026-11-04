@@ -141,6 +141,29 @@ def demo_unwind_review_sentiment(catalog):
         pct = f"{round((data['five_stars'] / data['count']) * 100)}%"
         print(f"{cat:<24} | {b_type:<16} | {data['count']:<8} | {avg_r:<11} | {pct}")
 
+def demo_redis_sorted_set_leaderboard():
+    print("\n" + "=" * 75)
+    print("DEMO 6: REDIS IN-MEMORY BEST-SELLER LEADERBOARD (Sorted Set - ZSET Simulation)")
+    print("=" * 75)
+    # Simulated atomic ZINCRBY updates upon order completion
+    leaderboard = {
+        "PROD-GROC-001": {"name": "Golden Penny Pure Soya Oil (5L)", "units_sold": 18},
+        "PROD-TECH-002": {"name": "Apple MacBook Pro 14 M3 Max", "units_sold": 12},
+        "PROD-TECH-001": {"name": "Apple iPhone 15 Pro", "units_sold": 5},
+        "PROD-FASH-001": {"name": "Men's Italian Tailored Wool Suit", "units_sold": 3}
+    }
+    
+    # Sort descending by score O(log N)
+    ranked = sorted(leaderboard.items(), key=lambda x: x[1]["units_sold"], reverse=True)
+    
+    print(f"{'Rank':<6} | {'SKU':<15} | {'Product Name':<35} | {'Score (Units Sold)'}")
+    print("-" * 75)
+    for rank, (sku, data) in enumerate(ranked, start=1):
+        print(f"#{rank:<5} | {sku:<15} | {data['name']:<35} | {data['units_sold']}")
+    print("-" * 75)
+    print("Command Verification: ZREVRANGE leaderboard:bestsellers:2026-11 0 2 WITHSCORES")
+    print(f"Top Trending Item: {ranked[0][0]} with {ranked[0][1]['units_sold']} units sold (Score).")
+
 if __name__ == "__main__":
     print("=" * 75)
     print("NOVAMART NOSQL DOCUMENT STORE ENGINE VERIFICATION (MongoDB Simulation)")
@@ -153,4 +176,5 @@ if __name__ == "__main__":
     demo_embedded_review_update(catalog)
     demo_aggregation_pipeline(catalog)
     demo_unwind_review_sentiment(catalog)
+    demo_redis_sorted_set_leaderboard()
 
