@@ -130,7 +130,7 @@
     <div class="meta-item"><strong>Academic Session:</strong> 2026/2027 (First Semester CA)</div>
     <div class="meta-item"><strong>Submission Platform:</strong> LMS & GitHub</div>
     <div class="meta-item" style="grid-column: span 2;">
-      <strong>GitHub Repository:</strong> <a href="https://github.com/peace-ekoh/advanced-database-portfolio" style="color: #0284c7; text-decoration: none;">https://github.com/peace-ekoh/advanced-database-portfolio</a>
+      <strong>GitHub Repository:</strong> <a href="https://github.com/EKOHPEACE/advanced-database-portfolio" style="color: #0284c7; text-decoration: none;">https://github.com/EKOHPEACE/advanced-database-portfolio</a>
     </div>
   </div>
 </div>
@@ -247,35 +247,35 @@ FINAL INVENTORY STATE: product_id = 8 | Verified Serial Stock = 4 units (Race Co
 
 <h2>7. Individual Technical Reflection</h2>
 
-<h3>7.1 Architectural Design Choices & Trade-Offs</h3>
+<h3>7.1 Key Design Decisions & Lessons Learned</h3>
 <p>
-  The defining architectural decision was embracing <strong>Polyglot Persistence</strong>. While early prototypes explored storing polymorphic specifications within MySQL 8.0 <code>JSON</code> columns, querying deeply nested attributes and calculating cross-attribute facets proved computationally expensive. MongoDB's native document model eliminated the relational EAV anti-pattern, permitting zero-downtime catalog expansions. Conversely, maintaining customer financial ledgers and stock reservations in MongoDB would have sacrificed strict multi-table relational ACID guarantees. Pairing MySQL for transactional ledgers with MongoDB for product browsing achieved the optimal balance of consistency, latency, and operational flexibility.
+  The most impactful design choice I made was adopting <strong>Polyglot Persistence</strong>. Early on, I considered keeping everything in MySQL by using its JSON datatype for product specifications. However, as I started writing analytical queries and nested filters, the SQL became convoluted and difficult to index efficiently. Moving the catalog into MongoDB and keeping financial ledgers in MySQL made each system do what it does best: MySQL guarantees ACID compliance and referential integrity for orders and payments, while MongoDB gives the storefront flexible, schema-free product documents.
 </p>
 
 <h3>7.2 Practical Engineering Challenges & Solutions</h3>
 <ol>
   <li>
-    <strong>Timezone DST Discontinuity During Bulk Seeding:</strong> When inserting 9,000 randomized orders, MySQL threw <code>ERROR 1292: Incorrect datetime value</code> due to Daylight Saving Time (DST) spring-forward hour jumps. Enforcing explicit UTC session timestamps (<code>SET time_zone = '+00:00';</code>) resolved the issue deterministically.
+    <strong>Handling Timezone Quirks During Bulk Seeding:</strong> When generating 9,000 random historical orders in MySQL, my seed script repeatedly failed with <code>ERROR 1292: Incorrect datetime value</code>. It turned out that random timestamp generation in standard time zones hits non-existent hour values during Daylight Saving Time spring-forward transitions. I resolved this by enforcing explicit UTC handling (<code>SET time_zone = '+00:00';</code>) at the start of the session, making timestamp creation completely deterministic.
   </li>
   <li>
-    <strong>Eliminating Intermediate Filesorts in Analytical Queries:</strong> In Portfolio 2, initial profiling revealed that filtering by <code>order_status</code> still incurred an expensive in-memory sort on <code>order_date DESC</code>. By aligning with B-Tree composite index mechanics—placing equality attributes before sorting attributes—the new composite index <code>idx_orders_status_date</code> traversed leaf pages in pre-sorted order, slashing latency by 42.1%.
+    <strong>Diagnosing the Hidden Filesort in Portfolio 2:</strong> When I first ran <code>EXPLAIN ANALYZE</code> on the order filtering query, I was surprised to see high latency even though I had an index on <code>order_status</code>. Looking at the execution plan, I noticed MySQL was still performing an in-memory <code>Sort</code> on <code>order_date</code>. Re-reading how B-Tree indexes work made me realize that equality columns must come first in composite keys. Creating <code>idx_orders_status_date(order_status, order_date DESC)</code> fixed this, allowing MySQL to scan the index in pre-sorted order and cutting query latency almost in half.
   </li>
   <li>
-    <strong>Mitigating Concurrency Lock Contention:</strong> Pessimistic row locking (<code>FOR UPDATE</code>) proved highly effective in preventing overselling, but holding locks during slow external payment gateway calls risks thread exhaustion. In the simulation, Session 2 was blocked for 2.64s. In production, row locks must be restricted to minimal critical sections, augmented by Redis in-memory atomic decrement guards.
+    <strong>Observing Real Lock Contention:</strong> Testing concurrency in Portfolio 3 was one of the most rewarding parts of the project. Seeing Session 2 get paused in a <code>LOCK WAIT</code> state for 2.64 seconds proved that pessimistic locking really works, but it also highlighted a production risk: holding database locks for too long will quickly exhaust connection pools. This reinforced why offloading inventory decrement pre-checks to Redis in memory is so valuable in high-traffic architectures.
   </li>
 </ol>
 
 <h2>8. Academic Integrity & Mandatory AI-Use Declaration</h2>
 <p>
-  This database portfolio represents original, independent technical work designed, developed, and verified by <strong>Peace Ekoh (ID: 301866431)</strong>.
+  This practical portfolio represents independent technical work designed, implemented, and verified by <strong>Peace Ekoh (Student ID: 301866431)</strong> for the MIT 8103 course at MIVA Open University.
 </p>
 <p>
-  Where artificial intelligence tools were utilized as learning aids in accordance with university policy:
+  In accordance with Section 11 of the university assessment brief, my use of AI tools is declared as follows:
 </p>
 <ul>
   <li><strong>AI Tool Used:</strong> Google DeepMind / Antigravity Agentic Assistant.</li>
-  <li><strong>Scope of Use:</strong> Conceptual brainstorming of e-commerce edge-case schemas, review of MySQL 8.0 <code>EXPLAIN ANALYZE</code> syntax, and formatting markdown tables.</li>
-  <li><strong>Student Verification & Validation:</strong> Every SQL DDL script, stored procedure, transaction flow, concurrency simulation, and NoSQL aggregation pipeline was personally executed, tested, and validated on local installations of <strong>MySQL 8.0.30</strong>, <strong>Python 3.10</strong>, and <strong>Node.js 18</strong>. All performance metrics, execution logs, and concurrency lock timings reflect genuine empirical data generated on my local machine.</li>
+  <li><strong>Purpose & Scope:</strong> I used the assistant as a technical sounding board—brainstorming edge-case query scenarios, drafting initial SQL templates for the bulk order generator, and formatting markdown tables.</li>
+  <li><strong>Student Verification:</strong> Every single database table, SQL query, composite index, transaction script, Python simulation, and Docker configuration was executed, tested, and validated by me on my local machine (<strong>MySQL 8.0.30</strong> on Windows and <strong>Python 3.10</strong>). All performance metrics, query plans (<code>EXPLAIN ANALYZE</code>), and lock wait durations reported here are genuine measurements captured directly from my local test environment.</li>
 </ul>
 
 <h2>9. References</h2>

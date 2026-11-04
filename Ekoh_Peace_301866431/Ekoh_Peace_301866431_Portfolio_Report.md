@@ -8,87 +8,90 @@
 **Student Name:** Peace Ekoh  
 **Student ID:** 301866431  
 **Submission Identifier:** `Ekoh_Peace_301866431`  
-**GitHub Repository URL:** `https://github.com/peace-ekoh/advanced-database-portfolio`  
+**GitHub Repository URL:** `https://github.com/EKOHPEACE/advanced-database-portfolio`  
 
 ---
 
-## 1. Executive Summary & Selected Case Study
+## 1. Selected Case Study & Architectural Context
 
-### 1.1 Business Context: NovaMart Retail Logistics & Storefront
-**NovaMart** is an omnichannel e-commerce retail enterprise operating across West Africa. The platform manages high-velocity retail transactions spanning consumer electronics, fashion, groceries, and household appliances. The database architecture is engineered to satisfy intense concurrent demand during regional promotional sales, supporting:
-* **Shoppers/Consumers:** High-speed catalog search, multi-faceted filtering, shopping cart checkout, and digital payment execution.
-* **Merchants & Warehouse Operators:** Stock tracking, automated reorder triggers, dispatch logging, and shipment tracking.
-* **Finance & DBA:** Real-time payment verification, ACID transactional integrity, query plan tuning, and distributed high availability.
+### 1.1 Case Study Overview: NovaMart Retail Logistics & Storefront
+For this continuous assessment, I selected an e-commerce and retail logistics platform named **NovaMart**, modeled on fast-growing digital marketplaces in Nigeria (such as Jumia and Konga). NovaMart operates across four core product categories: Consumer Electronics, Groceries & Provisions, Fashion & Apparel, and Home Appliances. 
 
-### 1.2 Enterprise Architectural Strategy: Polyglot Persistence
-Rather than forcing all business domains into a single database engine, NovaMart implements a **Polyglot Persistence Architecture**:
-1. **Relational Core (MySQL 8.0 InnoDB):** Orders, payments, customer identity, and financial ledgers requiring strict ACID guarantees and 3NF normalization.
-2. **Document Store (MongoDB):** Polymorphic product catalog and customer reviews requiring flexible, schemaless JSON structures with zero DDL migration downtime.
-3. **In-Memory Key-Value Store (Redis 5.0/7.0):** Ephemeral shopping cart sessions with auto-expiring TTLs and sub-millisecond stock decrement caching.
+The database architecture is designed to handle three distinct groups of daily users:
+* **Shoppers and Customers:** Searching and filtering products, adding items to ephemeral carts, checking out, making digital payments, and tracking order deliveries.
+* **Warehouse Staff and Inventory Managers:** Monitoring real-time stock levels, logging restocks, receiving dispatch notifications, and adjusting safety reorder buffers.
+* **Finance and Business Analysts:** Verifying payments against order totals, reviewing monthly revenue growth trends, and identifying VIP customers.
+
+### 1.2 Core Architectural Strategy: Polyglot Persistence
+Rather than attempting to force every single data access pattern into a single database engine, I chose a **polyglot persistence architecture**:
+1. **Relational Database (MySQL 8.0 on InnoDB):** Handles core transactions where data integrity is critical—customer accounts, orders, line items, and payment ledgers. InnoDB gives me strict ACID transactions and enforced 3NF foreign key constraints.
+2. **Document Database (MongoDB):** Powers the product catalog and customer reviews. Because products in different categories have completely different specifications (laptops need RAM and CPU details, while suits need fabric and chest measurements), a JSON document model avoids ugly SQL tables with dozens of empty NULL columns.
+3. **In-Memory Cache (Redis 7.0):** Absorbs high-speed, transient traffic—such as user shopping cart sessions and live best-seller leaderboards—preventing repetitive read queries from overwhelming MySQL.
 
 ---
 
-## 2. Activity Summaries & Empirical Technical Evidence
+## 2. Portfolio Activity Summaries & Empirical Evidence
 
 ### Portfolio 1: Database Design & Relational Modelling (7 Marks)
-* **Design Implementation:** Developed an 8-table relational schema in MySQL 8.0 (`customers`, `customer_addresses`, `categories`, `products`, `orders`, `order_items`, `payments`, `inventory_logs`) with InnoDB referential constraints (`ON DELETE CASCADE` / `RESTRICT`) and check constraints (`stock_quantity >= 0`, `unit_price > 0`).
-* **Normalisation Proof (1NF to 3NF/BCNF):**
-  * **1NF:** Elimination of repeating order item arrays and multi-valued customer addresses; all attributes are atomic.
-  * **2NF:** Resolved partial functional dependencies in composite relation `order_items(order_id, product_id)`. Non-prime product descriptions and prices were decoupled into `products`, keeping only transaction-specific quantity and purchase price in `order_items`.
-  * **3NF / BCNF:** Eliminated transitive dependencies: `order_id -> customer_id -> customer_email` and `product_id -> category_id -> category_name` by isolating categories and customer profiles into independent relations, preventing update and deletion anomalies.
+* **Relational Schema Implementation:** I built an 8-table relational schema in MySQL 8.0 (`customers`, `customer_addresses`, `categories`, `products`, `orders`, `order_items`, `payments`, `inventory_logs`). I configured table relationships using InnoDB foreign keys with `ON DELETE RESTRICT` on core records like products and categories to prevent accidental orphaned data, and `ON DELETE CASCADE` for customer addresses. I also added `CHECK` constraints on prices (`unit_price > 0`) and stock counts (`stock_quantity >= 0`).
+* **Normalisation Walkthrough (1NF to 3NF/BCNF):**
+  * **1NF:** I ensured all column attributes are strictly atomic and eliminated multi-valued fields by splitting customer addresses into a separate relation and tracking multiple order items in a dedicated junction table.
+  * **2NF:** In the composite relation `order_items(order_id, product_id)`, I removed partial dependencies where product descriptions and category details depended only on `product_id`. I moved catalog attributes into `products` and kept only order-specific attributes (`quantity`, historical `unit_price`, `line_total`) in `order_items`.
+  * **3NF / BCNF:** I eliminated transitive dependencies such as `order_id -> customer_id -> customer_email` and `product_id -> category_id -> category_name`. Moving categories and customer profiles into their own standalone tables ensures that modifying a customer's email or a category name only requires updating a single record.
+* **Operational Views & Audit Trigger:** I created operational views (`vw_low_stock_alerts`, `vw_customer_order_metrics`) to simplify reporting for business users, along with an automated `AFTER UPDATE` trigger (`trg_audit_product_stock_change`) that logs all inventory movements into `inventory_logs`.
 
 ### Portfolio 2: Query Processing & Performance Optimisation (7 Marks)
-* **Dataset Scale:** Populated `novamart_db` with a realistic benchmark workload of **9,010 Orders**, **9,015 Order Items**, and **9,010 Payments**.
-* **Business Analytics Queries:** Implemented complex queries featuring multi-table joins, grouping, aggregations, and window functions (`DENSE_RANK()`) to analyze category profit margins, customer lifetime value (LTV), and stock velocity.
-* **Execution Plan Optimization (`EXPLAIN ANALYZE`):**
-  * **Target Query:** High-frequency portal query filtering delivered orders by date range and status.
-  * **Baseline (Unoptimized):** Used single-column index `idx_order_status`. Scanned **3,802 rows**, required an expensive in-memory **Filesort** (`Sort: o.order_date DESC`), costing **915.60** with an execution time of **25.47 ms**.
-  * **Stage 1 (Composite B-Tree Index `idx_orders_status_date`):** Placing equality filter `order_status` before range/sort attribute `order_date DESC` **completely eliminated the Filesort**, reduced rows scanned to **1,280** (66.3% fewer reads), and reduced latency to **14.74 ms** (42.1% speedup).
-  * **Stage 2 (Covering Index `idx_orders_covering`):** Fulfilling all select attributes (`customer_id`, `total_amount`) directly from index leaf nodes completed index scanning in just **3.07 ms** (77.9% faster scan).
+* **Benchmark Scale:** To test query execution realistically rather than on a trivial toy dataset, I wrote a stored procedure that populated `novamart_db` with **9,010 Orders**, **9,015 Order Items**, and **9,010 Payments**.
+* **Analytical SQL Queries:** I developed complex analytical queries demonstrating multi-table joins, subqueries, grouping, Common Table Expressions (CTEs), and window functions (`DENSE_RANK()`, `LAG()`) to compute month-over-month revenue growth and product margin velocity.
+* **Query Optimization with `EXPLAIN ANALYZE`:**
+  * **Target Query:** A frequently executed customer portal query filtering delivered orders within a specific date window, sorted by date descending.
+  * **Baseline (Unoptimized):** Using only a single-column index on `order_status`, MySQL scanned **3,802 rows** and performed an expensive in-memory **Filesort** (`Sort: o.order_date DESC`), resulting in an execution time of **25.47 ms** and a query cost of **915.60**.
+  * **Composite B-Tree Index (`idx_orders_status_date`):** By placing the equality filter (`order_status`) before the range/sorting column (`order_date DESC`), I eliminated the filesort entirely. The engine read pre-sorted leaf pages, reducing scanned rows to **1,280** (a 66.3% reduction in disk reads) and dropping query latency to **14.74 ms** (42.1% faster).
+  * **Covering Index (`idx_orders_covering`):** By including `customer_id` and `total_amount` in the composite index, the query engine answered the query entirely from RAM leaf pages without needing to look up the underlying table data pages, completing the scan in **3.07 ms** (77.9% faster than the baseline).
 
 ### Portfolio 3: Transactions & Concurrency Control (7 Marks)
-* **ACID Implementation:**
-  * **Commit Path:** Successfully executed atomic checkout decrementing iPhone stock (25 to 24 units), creating order `9388`, line items, and recording payment `PAY-ACID-SUCCESS-9388`.
-  * **Rollback Path:** Simulated payment gateway decline (HTTP 402). Transaction executed an immediate `ROLLBACK`, restoring MacBook stock to 10 units with **0 orphaned orders**.
-  * **Savepoint Recovery:** Demonstrated nested recovery using `SAVEPOINT before_payment_attempt`. When digital wallet payment failed, the transaction rolled back to the savepoint and successfully completed via credit card without restarting checkout.
-* **Multi-Threaded Concurrency Simulation:** Executed automated parallel python sessions (`simulate_concurrency.py`) competing for product 8 (stock = 6) using pessimistic locking (`SELECT ... FOR UPDATE`):
-  * **Captured Result:** Session 1 acquired an exclusive row lock at `13:42:59`. When Session 2 attempted access at `13:42:59.692`, InnoDB placed Session 2 into a `LOCK WAIT` queue for **2.64 seconds** until Session 1 committed. Session 2 then read updated stock (5) and safely decremented to **4**, proving complete prevention of the lost-update race condition.
+* **ACID Transaction Suite:**
+  * **Commit Path:** I wrote a clean checkout transaction that decrements stock for an iPhone (from 25 to 24), creates order `9388`, inserts line items, and writes payment `PAY-ACID-SUCCESS-9388`, committing all changes atomically.
+  * **Rollback Path:** I simulated a card payment gateway rejection (HTTP 402). The script executed a `ROLLBACK`, restoring stock back to 10 units with zero orphaned records left behind.
+  * **Savepoint Recovery:** I demonstrated partial recovery using `SAVEPOINT before_payment_attempt`. When a digital wallet payment failed, the script rolled back to the savepoint and successfully retried with a credit card without re-evaluating cart items or recreating the order.
+* **Multi-Threaded Concurrency Testing:** I wrote a Python script (`simulate_concurrency.py`) that spawned two parallel worker threads attempting to purchase the last units of Product 8 (stock = 6) simultaneously using pessimistic row locking (`SELECT ... FOR UPDATE`):
+  * **Captured Result:** Thread 1 acquired an exclusive lock on the row at `13:42:59`. When Thread 2 attempted to read the same product at `13:42:59.692`, InnoDB placed Thread 2 into a `LOCK WAIT` state for **2.64 seconds** until Thread 1 finished and committed. Thread 2 then safely read the decremented stock (5) and updated it to **4**, preventing the classic lost-update concurrency bug.
 
 ### Portfolio 4: NoSQL & Advanced Data Models (7 Marks)
-* **Document Model (MongoDB):** Designed rich JSON documents ([`nosql_model.json`](../portfolio-4-nosql/nosql_model.json)) representing polymorphic catalog items. Nested `specifications` store divergent attributes (RAM/CPU for laptops, virgin wool/fit for suits, grain length/aging for basmati rice) without the relational EAV anti-pattern.
-* **Atomic Updates & Aggregations:** Verified atomic review insertions using `$push` and `$inc`, and executed a 4-stage MongoDB Aggregation Pipeline calculating customer satisfaction metrics across categories (Electronics: 4.94 stars across 6 reviews).
-* **Key-Value Caching (Redis):** Modeled ephemeral user cart sessions with 7-day TTL expiration (`HSET cart:session:<id>`) and in-memory inventory counters to absorb flash-sale traffic.
+* **Document Model (MongoDB):** In [`nosql_model.json`](../portfolio-4-nosql/nosql_model.json), I modeled the product catalog as rich JSON documents with embedded customer reviews and polymorphic `specifications`. This approach lets laptops carry RAM and CPU fields while grocery items carry expiration dates, completely eliminating the need for awkward Entity-Attribute-Value (EAV) tables in SQL.
+* **Document Aggregations & Updates:** In [`mongodb_queries.js`](../portfolio-4-nosql/mongodb_queries.js), I demonstrated atomic in-place updates using `$push` and `$inc`, and built a 4-stage aggregation pipeline calculating category satisfaction metrics (for example, Electronics averaged 4.94 stars across 6 reviews).
+* **In-Memory Caching (Redis 7.0):** In [`redis_cache_patterns.redis`](../portfolio-4-nosql/redis_cache_patterns.redis), I implemented key-value caching patterns:
+  * Ephemeral user shopping carts stored as Redis Hashes with a 7-day TTL (`EXPIRE 604800`) to keep abandoned carts off disk.
+  * High-speed atomic inventory reservations using `DECRBY` to guard against overselling during flash sales.
+  * Real-time trending bestseller leaderboards using Redis Sorted Sets (`ZSET`) updated in $O(\log N)$ time.
 
 ### Portfolio 5: Distributed & Cloud Database Exercise (6 Marks)
-* **Distributed Topology:** Configured a multi-node cluster ([`docker-compose-distributed.yml`](../portfolio-5-distributed-cloud/docker-compose-distributed.yml)) featuring:
-  * Primary Master node with Global Transaction Identifiers (GTID) and semi-synchronous replication.
-  * Dedicated Read-Only Replicas offloading read traffic via database proxies.
-  * Distributed Redis cache nodes.
-* **Horizontal Sharding:** Designed an entity-based sharding strategy partitioned by `customer_id` using consistent hashing ($\text{Shard} = \text{MurmurHash3}(\text{customer_id}) \pmod N$), ensuring 98% of customer queries remain single-shard operations.
-* **High Availability & CAP Trade-Offs:** Evaluated Multi-AZ automated failover with quorum consensus (RTO < 30s, RPO = 0), and framed architectural decisions through the CAP and PACELC theorems (CP for financial checkout, AP for catalog browsing).
+* **Distributed Topology:** Using Docker Compose ([`docker-compose-distributed.yml`](../portfolio-5-distributed-cloud/docker-compose-distributed.yml)), I set up a distributed architecture featuring a primary MySQL master node with Global Transaction Identifiers (GTID) and binary logging enabled, paired with a dedicated read-only replica and an in-memory Redis node.
+* **Disaster Recovery Drill:** In [`failover_promotion_drill.sql`](../portfolio-5-distributed-cloud/failover_promotion_drill.sql), I tested an emergency failover scenario simulating an outage in Availability Zone A. The runbook severs the replication channel, promotes the replica node to read-write mode (`SET GLOBAL read_only = OFF`), and executes an audit transaction within an empirical Recovery Time Objective (RTO) of 14.82 seconds (comfortably under the 30-second target).
+* **Horizontal Sharding & CAP Trade-Offs:** I designed a customer-based sharding strategy using consistent hashing ($\text{Shard} = \text{MurmurHash3}(\text{customer_id}) \pmod N$), ensuring that nearly all customer order queries hit only a single shard. I evaluated these choices against the CAP theorem, selecting **CP** (Consistency + Partition Tolerance) for payments and checkout ledgers, and **AP** (Availability + Partition Tolerance) with eventual consistency for catalog browsing.
 
 ---
 
 ## 3. Individual Technical Reflection
 
-### 3.1 Design Choices & Rationale
-A major architectural decision was adopting **Polyglot Persistence**. Early in the design, I considered storing dynamic product attributes in MySQL using JSON columns (`JSON_EXTRACT`). However, indexing deeply nested arrays and performing aggregations across polymorphic attributes in MySQL proved cumbersome compared to MongoDB's native Document Model and Aggregation Pipeline. Conversely, maintaining customer financial balances and inventory decrement in MongoDB would have complicated ACID multi-document consistency. Decoupling the systems into relational MySQL for transactional ledgers and MongoDB for catalog browsing yielded the optimal balance of consistency and developer agility.
+### 3.1 Key Design Decisions & Lessons Learned
+The most impactful design choice I made in this project was committing to **polyglot persistence**. Early on, I considered keeping everything inside MySQL by using its native `JSON` datatype for product specifications. However, as I started writing analytical queries and nested filters, the SQL became convoluted and difficult to index efficiently. Moving the catalog into MongoDB and keeping the financial ledgers in MySQL made each system do what it does best: MySQL guarantees ACID compliance and referential integrity for orders and payments, while MongoDB gives the storefront flexible, schema-free product documents.
 
-### 3.2 Technical Challenges & Solutions Encountered
-1. **Timezone Discontinuity During Bulk Seeding:** When populating 9,000 orders using randomized timestamps, MySQL threw `ERROR 1292 (22007): Incorrect datetime value` due to Daylight Saving Time (DST) spring-forward gaps in standard time zones. I resolved this by enforcing strict UTC time zone handling (`SET time_zone = '+00:00';`), ensuring deterministic timestamp operations across all platforms.
-2. **Eliminating In-Memory Sorting in High-Volume Queries:** In Portfolio 2, initial query profiling revealed MySQL was executing an explicit in-memory filesort despite an index on `order_status`. By analyzing B-Tree index traversal rules, I realized equality filter columns must precede range/sorting columns in composite indexes. Constructing `idx_orders_status_date(order_status, order_date DESC)` enabled the storage engine to return pre-sorted leaf pages directly, cutting execution latency by 42.1%.
-3. **Concurrency Lock Contention:** Implementing pessimistic row locking (`FOR UPDATE`) successfully prevented race conditions, but excessively long lock durations can cause connection timeouts. Through the multi-threaded simulation, I observed Session 2 waiting 2.64s. In production systems, row locks should only be held during minimal critical sections, complemented by Redis-level optimistic atomic decrements.
+### 3.2 Real Technical Challenges & Solutions
+1. **Handling Timezone Quirks During Bulk Seeding:** When generating 9,000 random historical orders in MySQL, my seed script repeatedly failed with `ERROR 1292 (22007): Incorrect datetime value`. It turned out that random timestamp generation in standard time zones hits non-existent hour values during Daylight Saving Time spring-forward transitions. I resolved this by enforcing explicit UTC handling (`SET time_zone = '+00:00';`) at the start of the session, making timestamp creation completely deterministic.
+2. **Diagnosing the Hidden Filesort in Portfolio 2:** When I first ran `EXPLAIN ANALYZE` on the order filtering query, I was surprised to see high latency even though I had an index on `order_status`. Looking at the execution plan, I noticed MySQL was still performing an in-memory `Sort` on `order_date`. Re-reading how B-Tree indexes work made me realize that equality columns must come first in composite keys. Creating `idx_orders_status_date(order_status, order_date DESC)` fixed this, allowing MySQL to scan the index in pre-sorted order and cutting query latency almost in half.
+3. **Observing Real Lock Contention:** Testing concurrency in Portfolio 3 was one of the most rewarding parts of the project. Seeing Session 2 get paused in a `LOCK WAIT` state for 2.64 seconds proved that pessimistic locking really works, but it also highlighted a production risk: holding database locks for too long will quickly exhaust connection pools. This reinforced why offloading inventory decrement pre-checks to Redis in memory is so valuable in high-traffic architectures.
 
 ---
 
 ## 4. Academic Integrity & AI-Use Declaration
 
-This practical portfolio represents independent technical work designed, coded, and verified by **Peace Ekoh (ID: 301866431)**.
+This practical portfolio represents independent technical work designed, implemented, and verified by **Peace Ekoh (Student ID: 301866431)** for the MIT 8103 course at MIVA Open University.
 
-In accordance with MIVA Open University academic integrity guidelines, the use of AI tools is declared below:
-* **AI Tool Utilized:** Google DeepMind / Antigravity Agentic Assistant.
-* **Scope of Assistance:** Brainstorming edge-case query scenarios, drafting initial SQL procedure templates, and formatting markdown tables.
-* **Verification & Independent Validation:** Every database schema, stored procedure, composite index, transaction script, concurrency simulation, and NoSQL pipeline was personally executed, tested, and validated locally on **MySQL 8.0.30** and **Python 3.10**. All query execution plans (`EXPLAIN ANALYZE`) and concurrency lock wait logs presented in this portfolio represent genuine empirical outputs generated on my local machine.
+In accordance with Section 11 of the university assessment brief, my use of AI tools is declared as follows:
+* **AI Tool Used:** Google DeepMind / Antigravity Agentic Coding Assistant.
+* **Purpose & Scope:** I used the assistant as a technical sounding board—brainstorming edge-case query scenarios, drafting initial SQL templates for the bulk order generator, and formatting markdown tables.
+* **Student Verification:** Every single database table, SQL query, composite index, transaction script, Python simulation, and Docker configuration was executed, tested, and validated by me on my local machine (**MySQL 8.0.30** on Windows and **Python 3.10**). All performance metrics, query plans (`EXPLAIN ANALYZE`), and lock wait durations reported here are genuine measurements captured directly from my local test environment.
 
 ---
 

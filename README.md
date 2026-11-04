@@ -16,7 +16,7 @@
 ## 1. Selected Case Study: NovaMart Retail Logistics & Storefront
 
 ### 1.1 Business Context & Overview
-**NovaMart** is a fast-growing omni-channel e-commerce retail enterprise operating across West Africa. The platform connects consumers with consumer electronics, groceries, fashion, and household appliances. NovaMart manages a high volume of transactions, fluctuating inventory levels, high-concurrency order placement, and multi-hub logistics.
+For this practical portfolio, I selected **NovaMart**, a simulated e-commerce retail and logistics platform modeled after modern digital marketplaces operating in Nigeria (such as Jumia and Konga). The platform connects consumers with everyday retail goods across four primary categories: Consumer Electronics, Groceries & Provisions, Fashion & Apparel, and Home Appliances. The database is designed to handle realistic challenges such as high-concurrency order placement, fluctuating inventory levels, and multi-hub fulfillment.
 
 ### 1.2 Database Users
 * **Shoppers/Customers:** Search for products, view dynamic pricing, place orders, make digital payments, and track order fulfillment.
