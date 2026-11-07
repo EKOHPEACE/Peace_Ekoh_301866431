@@ -19,6 +19,8 @@ The normalisation walkthrough demonstrates:
 
 The schema, operational views, seed data, and constraint test scripts are saved in Portfolio 1. Invalid inserts (duplicate emails, negative prices, and category deletion violating foreign keys) are rejected by the database engine.
 
+<!-- PAGE BREAK -->
+
 ## Portfolio 2: Query Processing and Optimisation
 
 Analytical queries retrieve category profit margins, customer lifetime spending, and month-over-month revenue growth using window functions (DENSE_RANK, LAG). A separate data generation procedure populated 9,010 orders, 9,015 order items, and 9,010 payments for realistic performance benchmarking.
@@ -45,6 +47,8 @@ Two concurrent sessions demonstrate pessimistic row-level locking (SELECT ... FO
 MongoDB stores polymorphic product catalog documents in novamart_catalog.products. Each document embeds divergent specifications (e.g. RAM and CPU for laptops, wool type for suits) and customer reviews without requiring relational Entity-Attribute-Value (EAV) tables.
 
 Atomic review additions are executed using $push and $inc. A 4-stage aggregation pipeline calculates category satisfaction metrics (Electronics: 4.94 stars across 6 reviews). Redis implements in-memory key-value patterns: ephemeral shopping carts with a 7-day TTL (HSET with EXPIRE), atomic stock decrement (DECRBY) for flash sales, and real-time trending best-seller leaderboards using Redis Sorted Sets (ZSET).
+
+<!-- PAGE BREAK -->
 
 ## Portfolio 5: Distributed and Cloud Database Exercise
 
