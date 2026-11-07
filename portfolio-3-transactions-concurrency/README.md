@@ -222,6 +222,12 @@ When two transactions create a circular dependency (Transaction A holds Lock 1 a
 * The engine selects the transaction with the fewest modified rows as the victim, issues an `ERROR 1213 (40001): Deadlock found when trying to get lock; try restarting transaction`, and rolls it back immediately.
 * This allows the other transaction to proceed without system-wide hanging. In application code, deadlocked transactions are handled with exponential backoff retry algorithms.
 
+### 6.1 Runtime Transaction & Lock Wait Inspection (`performance_schema`)
+To diagnose concurrency bottlenecks and active lock wait queues in production:
+* **Active Transactions:** Query `information_schema.innodb_trx` to identify transaction start timestamps, elapsed seconds, isolation levels, and locked row counts.
+* **Granular Lock Modes:** Inspect `performance_schema.data_locks` to differentiate record locks, gap locks, and next-key locks (`LOCK_TYPE`, `LOCK_MODE`, `LOCK_STATUS`).
+* **Blocking Chains:** Join `performance_schema.data_lock_waits` with `innodb_trx` to instantly identify which session thread is blocking incoming transactions.
+
 ---
 
 ## 7. Execution & Reproduction Instructions

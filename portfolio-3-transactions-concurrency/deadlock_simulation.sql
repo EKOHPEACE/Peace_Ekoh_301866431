@@ -72,7 +72,50 @@ FROM products
 WHERE product_id IN (1, 4);
 
 -- ----------------------------------------------------------------------------
--- PART C: INSPECTING INNODB DEADLOCK LOGS
+-- PART C: RUNTIME TRANSACTION LOCK & CONTENTION MONITORING
 -- ----------------------------------------------------------------------------
--- To inspect the latest deadlock details in MySQL:
+-- MySQL 8.0 provides performance_schema tables to inspect live lock wait queues
+-- and transaction states in real-time.
+
+SELECT '--- INSPECTING ACTIVE INNODB TRANSACTIONS & ROW LOCKS ---' AS status;
+
+-- 1. Active transaction state and lock duration
+SELECT 
+    trx_id,
+    trx_state,
+    trx_started,
+    trx_isolation_level,
+    TIMESTAMPDIFF(SECOND, trx_started, NOW()) AS elapsed_seconds,
+    trx_rows_locked,
+    trx_rows_modified
+FROM information_schema.innodb_trx
+ORDER BY trx_started ASC;
+
+-- 2. Inspect active row locks and lock modes (X vs S, RECORD vs GAP)
+SELECT 
+    ENGINE_TRANSACTION_ID AS trx_id,
+    OBJECT_SCHEMA,
+    OBJECT_NAME,
+    LOCK_TYPE,
+    LOCK_MODE,
+    LOCK_STATUS,
+    LOCK_DATA
+FROM performance_schema.data_locks
+WHERE OBJECT_SCHEMA = 'novamart_db';
+
+-- 3. Query active lock contention and blocked transaction wait relationships
+SELECT 
+    r.trx_id AS waiting_trx_id,
+    r.trx_mysql_thread_id AS waiting_thread,
+    b.trx_id AS blocking_trx_id,
+    b.trx_mysql_thread_id AS blocking_thread,
+    TIMESTAMPDIFF(SECOND, r.trx_wait_started, NOW()) AS wait_seconds
+FROM performance_schema.data_lock_waits w
+JOIN information_schema.innodb_trx r ON w.REQUESTING_ENGINE_TRANSACTION_ID = r.trx_id
+JOIN information_schema.innodb_trx b ON w.BLOCKING_ENGINE_TRANSACTION_ID = b.trx_id;
+
+-- ----------------------------------------------------------------------------
+-- PART D: INSPECTING INNODB ENGINE DEADLOCK LOGS
+-- ----------------------------------------------------------------------------
+-- To inspect the latest deadlock history, lock graphs, and memory buffers:
 -- SHOW ENGINE INNODB STATUS\G;
