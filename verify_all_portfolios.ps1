@@ -17,7 +17,13 @@ $totalTests = 5
 
 # --- Portfolio 1: Schema & Constraints Check ---
 Write-Host "[1/5] Verifying Portfolio 1: Database Design & 3NF Schema..." -ForegroundColor Yellow
-$p1Files = @("portfolio-1-database-design/schema.sql", "portfolio-1-database-design/verify_constraints.sql")
+$p1Files = @(
+    "portfolio-1-database-design/schema.sql",
+    "portfolio-1-database-design/verify_constraints.sql",
+    "portfolio-1-database-design/Peace_Ekoh_301866431_P1_Schema.sql",
+    "portfolio-1-database-design/Peace_Ekoh_301866431_P1_SampleData.sql",
+    "portfolio-1-database-design/Peace_Ekoh_301866431_P1_ConstraintTests.sql"
+)
 $p1Missing = $p1Files | Where-Object { -not (Test-Path $_) }
 if ($p1Missing.Count -eq 0) {
     Write-Host "  -> [PASS] Schema DDL, seed data, and constraint test scripts verified." -ForegroundColor Green
@@ -28,7 +34,12 @@ if ($p1Missing.Count -eq 0) {
 
 # --- Portfolio 2: Query Optimization Check ---
 Write-Host "[2/5] Verifying Portfolio 2: Query Processing & Index Optimization..." -ForegroundColor Yellow
-$p2Files = @("portfolio-2-query-optimisation/queries.sql", "portfolio-2-query-optimisation/benchmark_optimization.sql")
+$p2Files = @(
+    "portfolio-2-query-optimisation/queries.sql",
+    "portfolio-2-query-optimisation/benchmark_optimization.sql",
+    "portfolio-2-query-optimisation/Peace_Ekoh_301866431_P2_Queries.sql",
+    "portfolio-2-query-optimisation/Peace_Ekoh_301866431_P2_Optimisation.sql"
+)
 $p2Missing = $p2Files | Where-Object { -not (Test-Path $_) }
 if ($p2Missing.Count -eq 0) {
     Write-Host "  -> [PASS] Analytical queries, bulk order generator, and EXPLAIN ANALYZE benchmark verified." -ForegroundColor Green
@@ -39,7 +50,13 @@ if ($p2Missing.Count -eq 0) {
 
 # --- Portfolio 3: Transactions & Concurrency Check ---
 Write-Host "[3/5] Verifying Portfolio 3: Transactions & Concurrency Control..." -ForegroundColor Yellow
-$p3Files = @("portfolio-3-transactions-concurrency/transactions.sql", "portfolio-3-transactions-concurrency/deadlock_simulation.sql", "portfolio-3-transactions-concurrency/simulate_concurrency.py")
+$p3Files = @(
+    "portfolio-3-transactions-concurrency/transactions.sql",
+    "portfolio-3-transactions-concurrency/deadlock_simulation.sql",
+    "portfolio-3-transactions-concurrency/simulate_concurrency.py",
+    "portfolio-3-transactions-concurrency/Peace_Ekoh_301866431_P3_Transactions.sql",
+    "portfolio-3-transactions-concurrency/Peace_Ekoh_301866431_P3_DeadlockPrevention.sql"
+)
 $p3Missing = $p3Files | Where-Object { -not (Test-Path $_) }
 if ($p3Missing.Count -eq 0) {
     Write-Host "  -> [PASS] ACID transaction suite, deadlock prevention, and Python row-lock simulation verified." -ForegroundColor Green
@@ -50,7 +67,14 @@ if ($p3Missing.Count -eq 0) {
 
 # --- Portfolio 4: NoSQL & Advanced Data Models Check ---
 Write-Host "[4/5] Verifying Portfolio 4: NoSQL Document Models & Redis Caching..." -ForegroundColor Yellow
-$p4Files = @("portfolio-4-nosql/nosql_model.json", "portfolio-4-nosql/mongodb_queries.js", "portfolio-4-nosql/redis_cache_patterns.redis", "portfolio-4-nosql/run_nosql_demo.py")
+$p4Files = @(
+    "portfolio-4-nosql/nosql_model.json",
+    "portfolio-4-nosql/mongodb_queries.js",
+    "portfolio-4-nosql/redis_cache_patterns.redis",
+    "portfolio-4-nosql/run_nosql_demo.py",
+    "portfolio-4-nosql/Peace_Ekoh_301866431_P4_MongoDB.js",
+    "portfolio-4-nosql/Peace_Ekoh_301866431_P4_Model.json"
+)
 $p4Missing = $p4Files | Where-Object { -not (Test-Path $_) }
 if ($p4Missing.Count -eq 0) {
     Write-Host "  -> [PASS] Polymorphic JSON schema, MongoDB aggregation scripts, and Redis session patterns verified." -ForegroundColor Green
@@ -61,7 +85,14 @@ if ($p4Missing.Count -eq 0) {
 
 # --- Portfolio 5: Distributed & Cloud Databases Check ---
 Write-Host "[5/5] Verifying Portfolio 5: Distributed Cloud Architecture & GTID Replication..." -ForegroundColor Yellow
-$p5Files = @("portfolio-5-distributed-cloud/docker-compose-distributed.yml", "portfolio-5-distributed-cloud/replication_setup.sql", "portfolio-5-distributed-cloud/verify_replication_health.sql", "portfolio-5-distributed-cloud/failover_promotion_drill.sql")
+$p5Files = @(
+    "portfolio-5-distributed-cloud/docker-compose-distributed.yml",
+    "portfolio-5-distributed-cloud/replication_setup.sql",
+    "portfolio-5-distributed-cloud/verify_replication_health.sql",
+    "portfolio-5-distributed-cloud/failover_promotion_drill.sql",
+    "portfolio-5-distributed-cloud/Peace_Ekoh_301866431_P5_DockerCluster.yml",
+    "portfolio-5-distributed-cloud/Peace_Ekoh_301866431_P5_ReplicationSetup.sql"
+)
 $p5Missing = $p5Files | Where-Object { -not (Test-Path $_) }
 if ($p5Missing.Count -eq 0) {
     Write-Host "  -> [PASS] Docker Compose cluster topology, GTID semi-sync scripts, replica health monitor, and failover drill verified." -ForegroundColor Green

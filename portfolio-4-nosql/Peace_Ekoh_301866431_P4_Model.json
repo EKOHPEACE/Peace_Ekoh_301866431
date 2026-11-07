@@ -1,0 +1,248 @@
+[
+  {
+    "_id": "PROD-TECH-001",
+    "sku": "SKU-SMP-001",
+    "product_name": "Apple iPhone 15 Pro",
+    "category": {
+      "primary": "Electronics",
+      "sub_category": "Smartphones & Tablets"
+    },
+    "brand": "Apple",
+    "pricing": {
+      "currency": "NGN",
+      "base_price": 1450000.00,
+      "discount_percentage": 5,
+      "final_price": 1377500.00
+    },
+    "inventory": {
+      "warehouse_id": "WH-LAGOS-01",
+      "available_stock": 24,
+      "reserved_stock": 2
+    },
+    "specifications": {
+      "display": "6.1-inch Super Retina XDR OLED 120Hz",
+      "processor": "Apple A17 Pro (3nm)",
+      "storage_gb": 256,
+      "ram_gb": 8,
+      "camera_setup": "Triple: 48MP Main + 12MP Telephoto + 12MP Ultrawide",
+      "battery_mah": 3274,
+      "connectivity": ["5G", "Wi-Fi 6E", "Bluetooth 5.3", "NFC", "USB-C 3.0"],
+      "color": "Natural Titanium",
+      "weight_grams": 187
+    },
+    "tags": ["flagship", "ios", "titanium", "usb-c", "pro-camera"],
+    "review_summary": {
+      "average_rating": 4.8,
+      "total_reviews": 3
+    },
+    "reviews": [
+      {
+        "review_id": "REV-101",
+        "customer_id": 1,
+        "customer_name": "Chinedu Okafor",
+        "rating": 5,
+        "title": "Unbelievable build quality and camera performance",
+        "comment": "The titanium frame makes it feel significantly lighter in the hand. The 5x optical zoom is stunning.",
+        "verified_purchase": true,
+        "helpful_votes": 14,
+        "created_at": "2026-08-15T14:20:00Z"
+      },
+      {
+        "review_id": "REV-102",
+        "customer_id": 3,
+        "customer_name": "Olumide Adeyemi",
+        "rating": 5,
+        "title": "Blazing fast processor",
+        "comment": "Runs heavy gaming and 4K video rendering without any frame drop.",
+        "verified_purchase": true,
+        "helpful_votes": 8,
+        "created_at": "2026-08-28T09:12:00Z"
+      },
+      {
+        "review_id": "REV-103",
+        "customer_id": 5,
+        "customer_name": "Tari Briggs",
+        "rating": 4.5,
+        "title": "Great phone, but battery is average",
+        "comment": "Lasts a full workday comfortably, but heavy 5G usage drains it before bedtime.",
+        "verified_purchase": true,
+        "helpful_votes": 3,
+        "created_at": "2026-09-10T18:45:00Z"
+      }
+    ],
+    "created_at": "2026-01-10T08:00:00Z",
+    "updated_at": "2026-09-10T18:45:00Z"
+  },
+  {
+    "_id": "PROD-TECH-002",
+    "sku": "SKU-LAP-001",
+    "product_name": "Apple MacBook Pro 14 M3 Max",
+    "category": {
+      "primary": "Electronics",
+      "sub_category": "Laptops & Computers"
+    },
+    "brand": "Apple",
+    "pricing": {
+      "currency": "NGN",
+      "base_price": 2850000.00,
+      "discount_percentage": 0,
+      "final_price": 2850000.00
+    },
+    "inventory": {
+      "warehouse_id": "WH-ABUJA-01",
+      "available_stock": 10,
+      "reserved_stock": 0
+    },
+    "specifications": {
+      "display": "14.2-inch Liquid Retina XDR",
+      "processor": "Apple M3 Max (14-core CPU, 30-core GPU)",
+      "ram_gb": 36,
+      "storage_gb": 1000,
+      "ports": ["MagSafe 3", "3x Thunderbolt 4", "HDMI", "SDXC card slot"],
+      "battery_hours": 18,
+      "operating_system": "macOS Sonoma",
+      "color": "Space Black",
+      "weight_kg": 1.62
+    },
+    "tags": ["laptop", "m3-max", "apple-silicon", "workstation", "creative-pro"],
+    "review_summary": {
+      "average_rating": 5.0,
+      "total_reviews": 2
+    },
+    "reviews": [
+      {
+        "review_id": "REV-201",
+        "customer_id": 7,
+        "customer_name": "Emeka Nwosu",
+        "rating": 5,
+        "title": "Machine learning powerhouse",
+        "comment": "Running local LLMs and Docker containers simultaneously without hearing the fan once.",
+        "verified_purchase": true,
+        "helpful_votes": 21,
+        "created_at": "2026-09-05T11:00:00Z"
+      },
+      {
+        "review_id": "REV-202",
+        "customer_id": 9,
+        "customer_name": "Kester Osa",
+        "rating": 5,
+        "title": "Liquid Retina display is unmatched",
+        "comment": "Color grading HDR video is a dream on this panel.",
+        "verified_purchase": true,
+        "helpful_votes": 6,
+        "created_at": "2026-09-18T16:30:00Z"
+      }
+    ],
+    "created_at": "2026-01-15T09:30:00Z",
+    "updated_at": "2026-09-18T16:30:00Z"
+  },
+  {
+    "_id": "PROD-FASH-001",
+    "sku": "SKU-FAS-001",
+    "product_name": "Men Italian Tailored Wool Suit",
+    "category": {
+      "primary": "Fashion & Apparel",
+      "sub_category": "Men Clothing"
+    },
+    "brand": "Sartoria Milano",
+    "pricing": {
+      "currency": "NGN",
+      "base_price": 185000.00,
+      "discount_percentage": 10,
+      "final_price": 166500.00
+    },
+    "inventory": {
+      "warehouse_id": "WH-LAGOS-02",
+      "available_stock": 40,
+      "reserved_stock": 3
+    },
+    "specifications": {
+      "fabric": "100% Super 150s Virgin Italian Wool",
+      "fit_type": "Modern Slim Fit",
+      "available_sizes": ["38R", "40R", "42L", "44R"],
+      "color_options": ["Midnight Navy", "Charcoal Gray", "Classic Black"],
+      "care_instructions": "Professional Dry Clean Only",
+      "lining_material": "100% Cupro Bemberg"
+    },
+    "tags": ["formal", "luxury", "italian-wool", "suit", "business-attire"],
+    "review_summary": {
+      "average_rating": 4.7,
+      "total_reviews": 1
+    },
+    "reviews": [
+      {
+        "review_id": "REV-301",
+        "customer_id": 2,
+        "customer_name": "Amina Bello",
+        "rating": 4.7,
+        "title": "Bought for my husband's graduation, impeccable fit",
+        "comment": "The drapery and fabric feel premium. Minor sleeve tailoring needed, but excellent value.",
+        "verified_purchase": true,
+        "helpful_votes": 9,
+        "created_at": "2026-08-20T12:00:00Z"
+      }
+    ],
+    "created_at": "2026-02-01T10:00:00Z",
+    "updated_at": "2026-08-20T12:00:00Z"
+  },
+  {
+    "_id": "PROD-GROC-001",
+    "sku": "SKU-GRO-001",
+    "product_name": "Premium Royal Basmati Rice 25kg",
+    "category": {
+      "primary": "Groceries & Provisions",
+      "sub_category": "Grains & Rice"
+    },
+    "brand": "Royal Aromatic",
+    "pricing": {
+      "currency": "NGN",
+      "base_price": 45000.00,
+      "discount_percentage": 0,
+      "final_price": 45000.00
+    },
+    "inventory": {
+      "warehouse_id": "WH-KANO-01",
+      "available_stock": 100,
+      "reserved_stock": 12
+    },
+    "specifications": {
+      "net_weight_kg": 25,
+      "grain_length_mm": 8.4,
+      "aging_period": "2 Years Aged",
+      "origin": "Himalayan Foothills, Punjab",
+      "packaging": "Multi-layer woven moisture-proof bag",
+      "dietary_certifications": ["Non-GMO", "Naturally Gluten-Free", "Halal"]
+    },
+    "tags": ["groceries", "basmati", "grains", "aged-rice", "bulk-pantry"],
+    "review_summary": {
+      "average_rating": 4.9,
+      "total_reviews": 2
+    },
+    "reviews": [
+      {
+        "review_id": "REV-401",
+        "customer_id": 10,
+        "customer_name": "Blessing Johnson",
+        "rating": 5,
+        "title": "Extremely fragrant and long grains",
+        "comment": "Grains double in length when cooked. Zero clumping, perfect for party jollof and fried rice.",
+        "verified_purchase": true,
+        "helpful_votes": 19,
+        "created_at": "2026-09-01T15:20:00Z"
+      },
+      {
+        "review_id": "REV-402",
+        "customer_id": 4,
+        "customer_name": "Ngozi Eze",
+        "rating": 4.8,
+        "title": "Top quality grocery delivery",
+        "comment": "Bag arrived clean and dry within 24 hours of ordering.",
+        "verified_purchase": true,
+        "helpful_votes": 4,
+        "created_at": "2026-09-25T17:10:00Z"
+      }
+    ],
+    "created_at": "2026-03-01T11:00:00Z",
+    "updated_at": "2026-09-25T17:10:00Z"
+  }
+]

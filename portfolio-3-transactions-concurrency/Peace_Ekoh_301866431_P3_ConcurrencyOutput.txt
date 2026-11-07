@@ -1,0 +1,30 @@
+﻿===========================================================================
+NOVAMART CONCURRENCY & ROW-LEVEL LOCKING VERIFICATION
+Simulating simultaneous checkouts for Product 8 with SELECT ... FOR UPDATE
+===========================================================================
+[13:42:59.191] [SESSION 1] Connecting to database and requesting lock...
+[13:42:59.692] [SESSION 2] Attempting concurrent access on product_id = 8 (Expect Lock Wait)...
+[13:43:02.323] [SESSION 1] Finished Execution:
+status
+SESSION 1: Starting Transaction and acquiring EXCLUSIVE ROW LOCK...
+product_id	product_name	stock_quantity
+8	Samsung Side-by-Side Refrigerator 647L	6
+simulating_payment_processing
+0
+status
+SESSION 1: Transaction COMMITTED successfully. Lock released.
+
+[13:43:02.327] [SESSION 2] Finished Execution after 2.64s wait (Proves Lock Blocked Session 2):
+status
+SESSION 2: Attempting to acquire lock on product_id = 8...
+product_id	product_name	stock_quantity
+8	Samsung Side-by-Side Refrigerator 647L	5
+status
+SESSION 2: Acquired lock, updated stock, and COMMITTED!
+
+===========================================================================
+FINAL INVENTORY STATE (Verified Serial Consistency):
+product_id	product_name	stock_quantity
+8	Samsung Side-by-Side Refrigerator 647L	4
+
+===========================================================================
