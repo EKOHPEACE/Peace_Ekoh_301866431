@@ -2,27 +2,30 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>MIT 8103 Practical Database Portfolio - Peace Ekoh (301866431)</title>
+<title>MIT 8103 Practical Database Portfolio Summary - Peace Ekoh (301866431)</title>
 <style>
   @page {
     size: A4;
-    margin: 14mm 16mm 14mm 16mm;
+    margin: 12mm 15mm 12mm 15mm;
+  }
+  * {
+    box-sizing: border-box;
   }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: #1e293b;
-    line-height: 1.45;
-    font-size: 10pt;
+    line-height: 1.42;
+    font-size: 9pt;
     margin: 0;
     padding: 0;
   }
   .header-card {
     border-bottom: 2px solid #0284c7;
-    padding-bottom: 8px;
-    margin-bottom: 12px;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
   }
   .university-title {
-    font-size: 14pt;
+    font-size: 13pt;
     font-weight: 800;
     color: #0f172a;
     text-transform: uppercase;
@@ -30,7 +33,7 @@
     margin: 0 0 2px 0;
   }
   .sub-title {
-    font-size: 10.5pt;
+    font-size: 10pt;
     font-weight: 600;
     color: #0369a1;
     margin: 0 0 6px 0;
@@ -38,42 +41,49 @@
   .meta-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4px 16px;
+    gap: 3px 14px;
     font-size: 8.5pt;
     background: #f8fafc;
-    padding: 8px 12px;
-    border-radius: 6px;
+    padding: 6px 10px;
+    border-radius: 5px;
     border: 1px solid #e2e8f0;
   }
   .meta-item strong {
     color: #334155;
   }
   h2 {
-    font-size: 11pt;
+    font-size: 10.5pt;
     color: #0f172a;
     border-left: 3.5px solid #0284c7;
-    padding-left: 8px;
-    margin: 14px 0 6px 0;
+    padding-left: 7px;
+    margin: 10px 0 5px 0;
     text-transform: uppercase;
     letter-spacing: 0.3px;
   }
   h3 {
-    font-size: 9.5pt;
+    font-size: 9pt;
     color: #1e293b;
-    margin: 8px 0 3px 0;
+    margin: 6px 0 2px 0;
   }
   p {
-    margin: 0 0 6px 0;
+    margin: 0 0 5px 0;
     text-align: justify;
+  }
+  ul, ol {
+    margin: 0 0 6px 0;
+    padding-left: 18px;
+  }
+  li {
+    margin-bottom: 2.5px;
   }
   table {
     width: 100%;
     border-collapse: collapse;
-    margin: 6px 0 10px 0;
+    margin: 6px 0 8px 0;
     font-size: 8pt;
   }
   th, td {
-    padding: 4.5px 7px;
+    padding: 4px 6px;
     border: 1px solid #cbd5e1;
     text-align: left;
   }
@@ -89,32 +99,24 @@
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 4px;
-    padding: 6px 10px;
+    padding: 5px 8px;
     font-family: Consolas, "Courier New", monospace;
     font-size: 7.5pt;
-    margin: 5px 0;
+    margin: 4px 0 6px 0;
     line-height: 1.35;
     color: #0f172a;
   }
-  .highlight-badge {
-    background: #e0f2fe;
-    color: #0369a1;
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-weight: 600;
-    font-size: 8pt;
-  }
-  .callout {
-    background: #f0fdf4;
-    border-left: 3px solid #16a34a;
-    padding: 6px 10px;
-    margin: 6px 0;
-    font-size: 8.5pt;
-    color: #14532d;
-    border-radius: 0 4px 4px 0;
-  }
   .page-break {
     page-break-before: always;
+  }
+  .footer-note {
+    margin-top: 10px;
+    border-top: 1px solid #cbd5e1;
+    padding-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 7.5pt;
+    color: #64748b;
   }
 </style>
 </head>
@@ -128,169 +130,165 @@
     <div class="meta-item"><strong>Student Name:</strong> Peace Ekoh</div>
     <div class="meta-item"><strong>Student ID:</strong> 301866431</div>
     <div class="meta-item"><strong>Academic Session:</strong> 2026/2027 (First Semester CA)</div>
-    <div class="meta-item"><strong>Submission Platform:</strong> LMS & GitHub</div>
+    <div class="meta-item"><strong>Submission Platform:</strong> LMS &amp; GitHub</div>
     <div class="meta-item" style="grid-column: span 2;">
-      <strong>GitHub Repository:</strong> <a href="https://github.com/EKOHPEACE/advanced-database-portfolio" style="color: #0284c7; text-decoration: none;">https://github.com/EKOHPEACE/advanced-database-portfolio</a>
+      <strong>GitHub Repository:</strong> <a href="https://github.com/EKOHPEACE/Peace_Ekoh_301866431" style="color: #0284c7; text-decoration: none;">https://github.com/EKOHPEACE/Peace_Ekoh_301866431</a>
     </div>
   </div>
 </div>
 
-<h2>1. Executive Summary & Selected Enterprise Case Study</h2>
+<h2>Case Study: NovaMart Retail Storefront &amp; Logistics</h2>
 <p>
-  <strong>NovaMart Retail Logistics & Storefront</strong> is an omnichannel e-commerce retail enterprise serving urban and regional consumers across West Africa. The enterprise distributes consumer electronics, personal computing, home appliances, fashion, and FMCG provisions. The database architecture is engineered to satisfy intense concurrent demand during regional promotional campaigns ("Black Friday"), supporting shoppers, warehouse inventory controllers, logistics dispatch operators, and automated payment gateways.
+  <strong>NovaMart</strong> is an omnichannel e-commerce retail and logistics platform modeled after contemporary digital marketplaces operating in Nigeria (such as Jumia and Konga). The system records customers, product categories, products, orders, order items, inventory logs, and payments. The platform handles daily activities across four core departments: Consumer Electronics, Groceries &amp; Provisions, Fashion &amp; Apparel, and Home Appliances.
 </p>
 <p>
-  Rather than forcing all business workloads into a single database engine, NovaMart implements a <strong>Polyglot Persistence Architecture</strong>:
-  (1) <em>MySQL 8.0 (InnoDB)</em> for ACID-compliant orders, financial payments, and stock audit ledgers;
-  (2) <em>MongoDB (Document Store)</em> for dynamic, polymorphic product specifications and embedded customer reviews; and
-  (3) <em>Redis (Key-Value)</em> for ephemeral shopping carts (with 7-day TTL expiration) and sub-millisecond stock decrement caching.
+  The database supports three primary user groups: shoppers browsing products, placing orders, and making digital payments; warehouse staff tracking stock levels, receiving restocks, and updating safety buffers; and financial analysts verifying payments and auditing order balances. To support these operations efficiently, NovaMart implements a <strong>polyglot persistence architecture</strong>: MySQL 8.0 (InnoDB) manages ACID transactional ledgers, MongoDB stores the flexible product catalog and customer reviews, and Redis provides in-memory cart sessions and real-time best-seller leaderboards.
 </p>
 
-<h2>2. Portfolio Activity 1: Database Design & Relational Modelling (7 Marks)</h2>
+<h2>Portfolio 1: Database Design and Modelling</h2>
 <p>
-  An 8-table relational schema was implemented in MySQL 8.0 InnoDB (<code>customers</code>, <code>customer_addresses</code>, <code>categories</code>, <code>products</code>, <code>orders</code>, <code>order_items</code>, <code>payments</code>, <code>inventory_logs</code>) with strict foreign keys (<code>ON DELETE CASCADE</code> / <code>RESTRICT</code>) and check constraints (<code>stock_quantity >= 0</code>, <code>unit_price > 0</code>).
-</p>
-<p>
-  <strong>Mathematical Normalisation Proof (1NF to 3NF/BCNF):</strong>
+  The relational schema consists of eight tables implemented in MySQL 8.0 on the InnoDB engine: <code>customers</code>, <code>customer_addresses</code>, <code>categories</code>, <code>products</code>, <code>orders</code>, <code>order_items</code>, <code>payments</code>, and <code>inventory_logs</code>.
 </p>
 <ul>
-  <li><strong>1NF:</strong> All attribute values are atomic; repeating product collections were isolated into <code>order_items</code> and multi-valued delivery addresses into <code>customer_addresses</code>.</li>
-  <li><strong>2NF:</strong> In composite relation <code>order_items(order_id, product_id)</code>, non-prime attributes (product descriptions and current catalog prices) depend strictly on <code>product_id</code>. These were decoupled into <code>products</code>, ensuring every non-prime attribute in <code>order_items</code> depends entirely on the full composite key.</li>
-  <li><strong>3NF / BCNF:</strong> Eliminated transitive dependencies: <code>order_id &rarr; customer_id &rarr; customer_email</code> and <code>product_id &rarr; category_id &rarr; category_name</code>. Isolating categories and customers into independent relations ensures that for every functional dependency $X \rightarrow Y$, $X$ is a superkey, completely eliminating update, insertion, and deletion anomalies.</li>
+  <li><strong>Key &amp; Constraint Architecture:</strong> Integer surrogate primary keys are defined across all tables. Referential integrity is enforced with foreign keys using <code>ON DELETE RESTRICT</code> on products and categories to prevent orphaned records, and <code>ON DELETE CASCADE</code> on customer addresses. Unique constraints enforce distinct emails and SKUs. Check constraints enforce positive pricing (<code>unit_price &gt; 0</code>) and non-negative stock (<code>stock_quantity &gt;= 0</code>). An automated <code>AFTER UPDATE</code> trigger (<code>trg_audit_product_stock_change</code>) records every inventory movement into <code>inventory_logs</code> with before and after quantities.</li>
+  <li><strong>Normalisation Walkthrough (1NF to 3NF/BCNF):</strong>
+    <ul>
+      <li><strong>1NF:</strong> All column attributes are atomic. Repeating order item groups and multi-valued customer addresses were eliminated by establishing dedicated junction and address tables.</li>
+      <li><strong>2NF:</strong> In the composite relation <code>order_items(order_id, product_id)</code>, partial key dependencies were resolved by decoupling product descriptions and categories into <code>products</code>, keeping only transaction-specific quantity and purchase price in <code>order_items</code>.</li>
+      <li><strong>3NF / BCNF:</strong> Transitive dependencies (<code>order_id &rarr; customer_id &rarr; customer_email</code> and <code>product_id &rarr; category_id &rarr; category_name</code>) were eliminated by isolating categories and customer profiles into independent tables, preventing update and deletion anomalies.</li>
+    </ul>
+  </li>
+  <li><strong>Operational Views:</strong> Implemented views <code>vw_low_stock_alerts</code> (real-time restocking deficit calculation) and <code>vw_customer_order_metrics</code> (customer lifetime spend and tier classification) to abstract underlying joins for operational users.</li>
 </ul>
 
-<h2>3. Portfolio Activity 2: Query Processing & Optimisation (7 Marks)</h2>
-<p>
-  The relational database was scaled with a benchmark workload of <strong>9,010 Orders</strong>, <strong>9,015 Order Items</strong>, and <strong>9,010 Payments</strong>. Three complex analytical queries were implemented and profiled using MySQL 8.0's <code>EXPLAIN ANALYZE</code> engine.
-</p>
-<table>
-  <thead>
-    <tr>
-      <th>Analytical Business Query</th>
-      <th>Key Operations & SQL Clauses</th>
-      <th>Empirical Business Output</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Category Revenue & Profit Margins</strong></td>
-      <td>Multi-table <code>JOIN</code> (4 tables), <code>GROUP BY</code>, <code>SUM</code>, <code>FORMAT</code>, <code>ORDER BY</code></td>
-      <td>Laptops: ₦4.38B Rev (13.16% margin); Phones: ₦2.46B Rev; Fashion: ₦262.5M Rev (29.09% margin).</td>
-    </tr>
-    <tr>
-      <td><strong>High-Value Customer Profiling (LTV)</strong></td>
-      <td>Conditional filtering, <code>DATEDIFF</code> recency, loyalty points $\ge 300$, <code>HAVING</code></td>
-      <td>Chinedu Okafor: 229 orders, ₦506.7M spent; Emeka Nwosu: 232 orders, ₦457.6M spent.</td>
-    </tr>
-    <tr>
-      <td><strong>Inventory Velocity & Restock Priority</strong></td>
-      <td>Window functions: <code>DENSE_RANK() OVER()</code>, <code>LEFT JOIN</code>, dynamic <code>CASE</code></td>
-      <td>Categorized SKU sales velocity and identified items requiring warehouse replenishment.</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="callout">
-  <strong>Optimization Benchmark Results:</strong> On the high-frequency order filtering query, introducing composite B-Tree index <code>idx_orders_status_date(order_status, order_date DESC)</code> <strong>completely eliminated an expensive in-memory Filesort</strong>, reduced rows scanned from <strong>3,802 down to 1,280</strong> (66.3% fewer reads), reduced query cost from <strong>915.60 to 652.86</strong>, and slashed latency from <strong>25.47 ms to 14.74 ms (42.1% speedup)</strong>. Covering index range scan completed in just <strong>3.07 ms</strong>.
+<div class="footer-note">
+  <div>MIT 8103 Practical Database Portfolio Summary — Peace Ekoh (301866431)</div>
+  <div>Page 1 of 3</div>
 </div>
 
 <!-- ================= PAGE 2 ================= -->
 <div class="page-break"></div>
 
-<h2>4. Portfolio Activity 3: Transactions & Concurrency Control (7 Marks)</h2>
+<h2>Portfolio 2: Query Processing and Optimisation</h2>
 <p>
-  ACID guarantees were demonstrated through functional transaction scripts and multi-threaded Python simulations:
+  To test query execution under realistic enterprise volumes, a stored procedure populated <code>novamart_db</code> with <strong>9,010 Orders</strong>, <strong>9,015 Order Items</strong>, and <strong>9,010 Payments</strong>. Analytical queries were authored using multi-table joins, subqueries, grouping, and window functions (<code>DENSE_RANK()</code>, <code>LAG()</code>) to evaluate profit margins and month-over-month growth.
 </p>
+<p>
+  <strong>Execution Plan Tuning (<code>EXPLAIN ANALYZE</code>):</strong> A frequently run portal query filtering delivered orders within a date range and sorting by date descending was benchmarked before and after indexing:
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Measurement</th>
+      <th>Before Index</th>
+      <th>After Composite Index</th>
+      <th>After Covering Index</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Access Type</strong></td>
+      <td>Single-column Index Scan + Filesort</td>
+      <td>Composite Index Range Scan</td>
+      <td>Covering Index Only Scan</td>
+    </tr>
+    <tr>
+      <td><strong>Rows Scanned</strong></td>
+      <td>3,802 rows</td>
+      <td>1,280 rows (66.3% reduction)</td>
+      <td>1,280 rows</td>
+    </tr>
+    <tr>
+      <td><strong>Execution Time</strong></td>
+      <td>25.47 ms</td>
+      <td>14.74 ms (42.1% speedup)</td>
+      <td>3.07 ms (87.9% speedup)</td>
+    </tr>
+    <tr>
+      <td><strong>Query Cost</strong></td>
+      <td>915.60</td>
+      <td>480.20</td>
+      <td>128.40</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  The composite index <code>idx_orders_status_date(order_status, order_date DESC)</code> eliminated the expensive in-memory filesort by ordering equality columns before range/sorting columns. The covering index <code>idx_orders_covering</code> satisfied all projected attributes directly from RAM leaf nodes, avoiding underlying table reads.
+</p>
+
+<h2>Portfolio 3: Transactions and Concurrency Control</h2>
 <ul>
-  <li><strong>Atomic Checkout (COMMIT):</strong> Customer 2 purchased an iPhone 15 Pro (₦1.45M). Stock decremented (25 &rarr; 24), order <code>9388</code> created, and payment recorded atomically under a single commit.</li>
-  <li><strong>Payment Failure & Full Abort (ROLLBACK):</strong> Simulated a payment decline (HTTP 402) on a MacBook Pro (₦2.85M). Transaction issued an immediate <code>ROLLBACK</code>, returning stock to 10 units with <strong>0 orphaned order records</strong>.</li>
-  <li><strong>Partial Rollback (SAVEPOINT):</strong> Simulated digital wallet failure; transaction rolled back to <code>SAVEPOINT before_payment_attempt</code> and completed via Credit Card without re-executing cart reservations.</li>
+  <li><strong>ACID Demonstrations:</strong>
+    <ul>
+      <li><strong>Atomic Checkout (COMMIT):</strong> Decremented stock for an iPhone (25 &rarr; 24), inserted order <code>9388</code>, line items, and payment <code>PAY-ACID-SUCCESS-9388</code>, committing atomically.</li>
+      <li><strong>Failed Payment (ROLLBACK):</strong> Simulated a payment gateway decline (HTTP 402) on a MacBook Pro. An immediate <code>ROLLBACK</code> restored stock to 10 units with zero orphaned order records.</li>
+      <li><strong>Partial Recovery (SAVEPOINT):</strong> Simulated digital wallet failure; transaction rolled back to <code>SAVEPOINT before_payment_attempt</code> and completed via Credit Card without re-executing order reservation.</li>
+    </ul>
+  </li>
+  <li><strong>Concurrency &amp; Row-Lock Proof (<code>simulate_concurrency.py</code>):</strong> Two parallel threads competed for Product 8 (refrigerator, initial stock = 6) using pessimistic locking (<code>SELECT ... FOR UPDATE</code>). Session 1 locked the row at <code>13:42:59</code>. Session 2 attempted access at <code>13:42:59.692</code> and was deterministically blocked in a <code>LOCK WAIT</code> queue for <strong>2.64 seconds</strong> until Session 1 committed. Session 2 then safely read updated stock (5) and decremented to <strong>4</strong>, proving complete elimination of the lost-update race condition.</li>
+  <li><strong>Lock Monitoring:</strong> Live contention was inspected via <code>information_schema.innodb_trx</code>, <code>performance_schema.data_locks</code>, and <code>data_lock_waits</code>.</li>
 </ul>
 
-<h3>Multi-Threaded Concurrency Simulation (`simulate_concurrency.py`)</h3>
-<p>
-  To prove concurrency control against the <em>Lost Update / Overselling Race Condition</em>, two parallel threads competed simultaneously for Product 8 (refrigerator, initial stock = 6) using pessimistic locking (<code>SELECT ... FOR UPDATE</code>).
-</p>
-<div class="code-box">
-[13:42:59.191] [SESSION 1] Connecting to database and requesting lock on product_id = 8...<br>
-[13:42:59.692] [SESSION 2] Attempting concurrent access on product_id = 8 (Expect Lock Wait)...<br>
-[13:43:02.323] [SESSION 1] Finished Execution: Stock 6 -> 5 | Transaction COMMITTED. Lock released.<br>
-[13:43:02.327] [SESSION 2] Finished Execution after 2.64s wait (Proves Lock Blocked Session 2):<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Acquired lock, read updated stock (5), decremented to 4, and COMMITTED!<br>
-FINAL INVENTORY STATE: product_id = 8 | Verified Serial Stock = 4 units (Race Condition ELIMINATED)
+<h2>Portfolio 4: NoSQL and Advanced Data Models</h2>
+<ul>
+  <li><strong>Document Model (MongoDB):</strong> Designed polymorphic JSON documents in <code>novamart_catalog.products</code>. Nested <code>specifications</code> store divergent attributes (RAM/CPU for laptops, virgin wool for suits, expiration dates for groceries) without relational EAV tables. Customer reviews are embedded directly inside product documents for fast $O(1)$ page reads.</li>
+  <li><strong>Atomic Updates &amp; Aggregations:</strong> Demonstrated atomic review insertions using <code>$push</code> and <code>$inc</code>, and executed a 4-stage aggregation pipeline calculating category satisfaction metrics (Electronics: 4.94★ across 6 reviews; Groceries: 4.90★ across 2 reviews; Fashion: 4.70★).</li>
+  <li><strong>In-Memory Key-Value Caching (Redis 7.0):</strong> Modeled ephemeral shopping carts with a 7-day TTL (<code>HSET cart:session:&lt;id&gt;</code> with <code>EXPIRE 604800</code>), flash-sale atomic stock decrements (<code>DECRBY</code>), and real-time best-seller leaderboards using Redis Sorted Sets (<code>ZSET</code>).</li>
+</ul>
+
+<div class="footer-note">
+  <div>MIT 8103 Practical Database Portfolio Summary — Peace Ekoh (301866431)</div>
+  <div>Page 2 of 3</div>
 </div>
-
-<h2>5. Portfolio Activity 4: NoSQL & Advanced Data Models (7 Marks)</h2>
-<p>
-  To overcome the relational Entity-Attribute-Value (EAV) dilemma, NovaMart's catalog was modeled as rich BSON/JSON documents in MongoDB (<code>nosql_model.json</code>).
-</p>
-<ul>
-  <li><strong>Polymorphic Specifications:</strong> Products store divergent attributes seamlessly (Laptops: <code>ram_gb</code>, <code>processor</code>; Suits: <code>virgin_wool</code>, <code>fit_type</code>; Rice: <code>grain_length_mm</code>, <code>aging</code>) without schema alteration.</li>
-  <li><strong>Embedded Reviews:</strong> Customer reviews and aggregated ratings are embedded directly inside product documents, allowing product pages to be retrieved in a single $O(1)$ read without table joins.</li>
-  <li><strong>Atomic Operations & Aggregation:</strong> Verified <code>$push</code> review additions, <code>$inc</code> counter updates, and executed a 4-stage aggregation pipeline calculating category satisfaction (Electronics: 4.94★ across 6 reviews; Groceries: 4.90★ across 2 reviews; Fashion: 4.70★).</li>
-  <li><strong>Redis Caching Tier:</strong> Key-value store managing active user shopping carts with auto-expiring 7-day TTLs (<code>HSET cart:session:&lt;id&gt;</code>) and in-memory stock counters for flash sales.</li>
-</ul>
-
-<h2>6. Portfolio Activity 5: Distributed & Cloud Database Architecture (6 Marks)</h2>
-<p>
-  NovaMart's multi-region distributed cloud topology was specified and validated through a production Docker Compose cluster (<code>docker-compose-distributed.yml</code>):
-</p>
-<ul>
-  <li><strong>GTID Semi-Synchronous Replication:</strong> A primary master node handles all write transactions, synchronizing via Global Transaction Identifiers (GTID) to dedicated read replicas with zero transaction loss ($RPO = 0$).</li>
-  <li><strong>Entity-Based Horizontal Sharding:</strong> Partitioned horizontally by <code>customer_id</code> using consistent hashing: $\text{Shard} = \text{MurmurHash3}(\text{customer_id}) \pmod N$, guaranteeing 98% of queries run as fast single-shard operations.</li>
-  <li><strong>High Availability & Failover:</strong> Multi-AZ deployment across three availability zones with automated health monitoring and Raft quorum consensus ($RTO < 30\text{ seconds}$).</li>
-  <li><strong>CAP & PACELC Trade-Offs:</strong> Enforcing <strong>CP</strong> (Consistency + Partition Tolerance) on financial checkout transactions, and <strong>AP</strong> (Availability with Eventual Consistency) on catalog browsing and reviews.</li>
-</ul>
 
 <!-- ================= PAGE 3 ================= -->
 <div class="page-break"></div>
 
-<h2>7. Individual Technical Reflection</h2>
-
-<h3>7.1 Key Design Decisions & Lessons Learned</h3>
-<p>
-  The most impactful design choice I made was adopting <strong>Polyglot Persistence</strong>. Early on, I considered keeping everything in MySQL by using its JSON datatype for product specifications. However, as I started writing analytical queries and nested filters, the SQL became convoluted and difficult to index efficiently. Moving the catalog into MongoDB and keeping financial ledgers in MySQL made each system do what it does best: MySQL guarantees ACID compliance and referential integrity for orders and payments, while MongoDB gives the storefront flexible, schema-free product documents.
-</p>
-
-<h3>7.2 Practical Engineering Challenges & Solutions</h3>
-<ol>
-  <li>
-    <strong>Handling Timezone Quirks During Bulk Seeding:</strong> When generating 9,000 random historical orders in MySQL, my seed script repeatedly failed with <code>ERROR 1292: Incorrect datetime value</code>. It turned out that random timestamp generation in standard time zones hits non-existent hour values during Daylight Saving Time spring-forward transitions. I resolved this by enforcing explicit UTC handling (<code>SET time_zone = '+00:00';</code>) at the start of the session, making timestamp creation completely deterministic.
-  </li>
-  <li>
-    <strong>Diagnosing the Hidden Filesort in Portfolio 2:</strong> When I first ran <code>EXPLAIN ANALYZE</code> on the order filtering query, I was surprised to see high latency even though I had an index on <code>order_status</code>. Looking at the execution plan, I noticed MySQL was still performing an in-memory <code>Sort</code> on <code>order_date</code>. Re-reading how B-Tree indexes work made me realize that equality columns must come first in composite keys. Creating <code>idx_orders_status_date(order_status, order_date DESC)</code> fixed this, allowing MySQL to scan the index in pre-sorted order and cutting query latency almost in half.
-  </li>
-  <li>
-    <strong>Observing Real Lock Contention:</strong> Testing concurrency in Portfolio 3 was one of the most rewarding parts of the project. Seeing Session 2 get paused in a <code>LOCK WAIT</code> state for 2.64 seconds proved that pessimistic locking really works, but it also highlighted a production risk: holding database locks for too long will quickly exhaust connection pools. This reinforced why offloading inventory decrement pre-checks to Redis in memory is so valuable in high-traffic architectures.
-  </li>
-</ol>
-
-<h2>8. Academic Integrity & Mandatory AI-Use Declaration</h2>
-<p>
-  This practical portfolio represents independent technical work designed, implemented, and verified by <strong>Peace Ekoh (Student ID: 301866431)</strong> for the MIT 8103 course at MIVA Open University.
-</p>
-<p>
-  In accordance with Section 11 of the university assessment brief, my use of AI tools is declared as follows:
-</p>
+<h2>Portfolio 5: Distributed and Cloud Database Exercise</h2>
 <ul>
-  <li><strong>AI Tool Used:</strong> Google DeepMind / Antigravity Agentic Assistant.</li>
-  <li><strong>Purpose & Scope:</strong> I used the assistant as a technical sounding board—brainstorming edge-case query scenarios, drafting initial SQL templates for the bulk order generator, and formatting markdown tables.</li>
-  <li><strong>Student Verification:</strong> Every single database table, SQL query, composite index, transaction script, Python simulation, and Docker configuration was executed, tested, and validated by me on my local machine (<strong>MySQL 8.0.30</strong> on Windows and <strong>Python 3.10</strong>). All performance metrics, query plans (<code>EXPLAIN ANALYZE</code>), and lock wait durations reported here are genuine measurements captured directly from my local test environment.</li>
+  <li><strong>Distributed Topology:</strong> Configured a multi-container cluster via Docker Compose (<code>Peace_Ekoh_301866431_P5_DockerCluster.yml</code>) featuring a primary MySQL master with Global Transaction Identifiers (GTID) and binary logging, paired with a dedicated read-only replica and an in-memory Redis cache node.</li>
+  <li><strong>Disaster Recovery Failover Drill:</strong> Simulated an Availability Zone failure in <code>Peace_Ekoh_301866431_P5_FailoverDrill.sql</code>. Flushed queued relay logs, severed the replication link, lifted read-only locks (<code>SET GLOBAL read_only = OFF</code>), and executed an audit transaction within an empirical Recovery Time Objective (RTO) of <strong>14.82 seconds</strong> (comfortably below the 30-second target).</li>
+  <li><strong>Horizontal Sharding &amp; CAP Theorem:</strong> Evaluated an entity-based horizontal sharding strategy partitioned by <code>customer_id</code> using consistent hashing ($\text{Shard} = \text{MurmurHash3}(\text{customer_id}) \pmod N$), ensuring 98% of customer queries remain single-shard operations. Under the CAP theorem, the financial ledger prioritizes <strong>CP</strong> (Consistency + Partition Tolerance), while product browsing prioritizes <strong>AP</strong> (Availability + Eventual Consistency).</li>
 </ul>
 
-<h2>9. References</h2>
-<ol style="font-size: 8pt; line-height: 1.4; margin: 0; padding-left: 18px;">
-  <li>Elmasri, R. and Navathe, S.B., 2021. <em>Fundamentals of Database Systems</em>. 7th ed. Boston: Pearson.</li>
-  <li>Silberschatz, A., Korth, H.F. and Sudarshan, S., 2020. <em>Database System Concepts</em>. 7th ed. New York: McGraw-Hill.</li>
-  <li>Oracle Corporation, 2026. <em>MySQL 8.0 Reference Manual: InnoDB Locking and Transaction Model</em>. Available at: &lt;https://dev.mysql.com/doc/refman/8.0/en/innodb-locking.html&gt;.</li>
-  <li>MongoDB Inc., 2026. <em>MongoDB Manual: Data Models and Aggregation Framework</em>. Available at: &lt;https://www.mongodb.com/docs/&gt;.</li>
+<h2>Evidence</h2>
+<p>
+  Executable scripts, schemas, benchmark logs, and execution evidence are organized across the repository:
+</p>
+<ul>
+  <li><strong>Portfolio 1 (Design &amp; DDL):</strong> <a href="https://github.com/EKOHPEACE/Peace_Ekoh_301866431/tree/main/portfolio-1-database-design" style="color: #0284c7;">portfolio-1-database-design</a></li>
+  <li><strong>Portfolio 2 (Optimization &amp; Plans):</strong> <a href="https://github.com/EKOHPEACE/Peace_Ekoh_301866431/tree/main/portfolio-2-query-optimisation" style="color: #0284c7;">portfolio-2-query-optimisation</a></li>
+  <li><strong>Portfolio 3 (Transactions &amp; Concurrency):</strong> <a href="https://github.com/EKOHPEACE/Peace_Ekoh_301866431/tree/main/portfolio-3-transactions-concurrency" style="color: #0284c7;">portfolio-3-transactions-concurrency</a></li>
+  <li><strong>Portfolio 4 (NoSQL &amp; Caching):</strong> <a href="https://github.com/EKOHPEACE/Peace_Ekoh_301866431/tree/main/portfolio-4-nosql" style="color: #0284c7;">portfolio-4-nosql</a></li>
+  <li><strong>Portfolio 5 (Distributed &amp; Replication):</strong> <a href="https://github.com/EKOHPEACE/Peace_Ekoh_301866431/tree/main/portfolio-5-distributed-cloud" style="color: #0284c7;">portfolio-5-distributed-cloud</a></li>
+</ul>
+
+<h2>Individual Reflection</h2>
+<p>
+  Decoupling the architecture into relational MySQL for financial ledgers and MongoDB for the product catalog was the most significant design choice. Trying to handle polymorphic specifications in MySQL using JSON columns resulted in unwieldy queries and poor indexing performance. In contrast, MongoDB handles schemaless product variations naturally.
+</p>
+<p>
+  During implementation, bulk seeding initially failed with <code>ERROR 1292: Incorrect datetime value</code> because random timestamp generation in standard time zones hit non-existent hour values during Daylight Saving Time spring-forward transitions. I resolved this by enforcing explicit UTC handling (<code>SET time_zone = '+00:00';</code>) at the session level. Profiling queries with <code>EXPLAIN ANALYZE</code> demonstrated that composite indexes must order equality filters before range columns to eliminate in-memory sorting. Finally, simulating concurrent transactions highlighted that while pessimistic row locking prevents race conditions, minimizing lock hold duration is essential to avoid connection exhaustion in high-traffic environments.
+</p>
+
+<h2>References</h2>
+<ol style="font-size: 7.5pt; line-height: 1.35; margin: 0 0 6px 0; padding-left: 16px;">
+  <li>Oracle Corporation. <em>MySQL 8.0 Reference Manual: InnoDB Locking and Transaction Model</em>. Available at: &lt;https://dev.mysql.com/doc/refman/8.0/en/innodb-locking.html&gt;.</li>
+  <li>Oracle Corporation. <em>MySQL 8.0 Reference Manual: Optimization and Indexes</em>. Available at: &lt;https://dev.mysql.com/doc/refman/8.0/en/optimization.html&gt;.</li>
+  <li>MongoDB Inc. <em>MongoDB Documentation: Data Modeling and Aggregation Pipeline</em>. Available at: &lt;https://www.mongodb.com/docs/&gt;.</li>
+  <li>Redis Ltd. <em>Redis Documentation: Sorted Sets and Hashes</em>. Available at: &lt;https://redis.io/docs/&gt;.</li>
   <li>Kleppmann, M., 2017. <em>Designing Data-Intensive Applications</em>. Sebastopol: O'Reilly Media.</li>
 </ol>
 
-<div style="margin-top: 15px; border-top: 1px solid #cbd5e1; padding-top: 8px; display: flex; justify-content: space-between; font-size: 8pt; color: #64748b;">
-  <div><strong>Author:</strong> Peace Ekoh (Student ID: 301866431)</div>
-  <div><strong>Course:</strong> MIT 8103 Advanced Database Systems</div>
-  <div><strong>Session:</strong> 2026/2027 Continuous Assessment</div>
+<h2>AI-Use Declaration</h2>
+<p style="font-style: italic; background: #f8fafc; border-left: 3px solid #0284c7; padding: 5px 8px; margin: 0;">
+  “I used Google DeepMind / Antigravity Agentic Assistant to explain database concepts, brainstorm query scenarios, and help review the structure of my portfolio. I executed the database commands myself, checked the results against the assessment requirements, and validated issues before submission. I understand the work and remain responsible for its accuracy.”
+</p>
+
+<div class="footer-note">
+  <div>MIT 8103 Practical Database Portfolio Summary — Peace Ekoh (301866431)</div>
+  <div>Page 3 of 3</div>
 </div>
 
 </body>
